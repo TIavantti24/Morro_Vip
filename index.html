@@ -822,6 +822,197 @@ section.tinare .highlights li, section.quadriciclo .highlights li {
   position: relative;
   top: 0;
 }
+  /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #030303, #f0d800);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-window.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(to right, #000000, #ffee00);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            line-height: 1.4;
+        }
+
+        .message.bot {
+            background: #f1f3f6;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            background: #000000;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background: #f9f9f9;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .chatbot-input button {
+            margin-left: 10px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #000000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 15px;
+            background: #f1f3f6;
+            border-radius: 15px;
+            align-self: flex-start;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            display: inline-block;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) { animation-delay: 0s; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .product-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .back-button {
+                position: relative;
+                left: 0;
+                top: 0;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .chatbot-window {
+                width: 300px;
+                left: -20px;
+            }
+        }
     </style>
 </head>
 <body data-path-to-root="/" data-include-products="false" class="u-body u-xl-mode" data-lang="en">
@@ -1184,7 +1375,36 @@ Com rosas e espumante e muito mais..</p>
     </div>
     
 
-
+ <!-- Chatbot Container -->
+    <div class="chatbot-container">
+        <div class="chatbot-button" id="chatbotButton">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <h3>Especialista Morro Vip</h3>
+                <button class="chatbot-close" id="chatbotClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">
+                    Olá! Sou seu atendente vistual. Como posso ajudar você com informações sobre este incrível Morro Vip?
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="Digite sua pergunta sobre o produto...">
+                <button id="chatbotSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 <footer class="footer" id="contato"></footer>
   <div class="footer-content">
     <div class="footer-section about">
@@ -1255,6 +1475,149 @@ Com rosas e espumante e muito mais..</p>
           }
       });
   }
+</script>
+<script>
+      // Chatbot functionality
+        const chatbotButton = document.getElementById('chatbotButton');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotSend = document.getElementById('chatbotSend');
+        const typingIndicator = document.getElementById('typingIndicator');
+        
+        // Gemini API configuration
+        const GEMINI_API_KEY = "AIzaSyDHlxKROcWuAB9s8NJHYndeA5VeIyMAA40";
+        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        
+        // Open chatbot
+        chatbotButton.addEventListener('click', () => {
+            chatbotWindow.classList.toggle('active');
+        });
+        
+        // Close chatbot
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.classList.remove('active');
+        });
+        
+        // Send message function
+        function sendMessage() {
+            const message = chatbotInput.value.trim();
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            chatbotInput.value = '';
+            
+            // Show typing indicator
+            typingIndicator.style.display = 'flex';
+            
+            // Prepare specialized prompt for Gemini as a sales expert
+            const prompt = `Você é uma atendente virtual simpática, especializada em turismo em Morro de São Paulo – Bahia.
+Sua função é tirar dúvidas, explicar os passeios, informar preços, dar orientações e auxiliar os clientes a reservar.
+
+Sempre responda de forma clara, educada, acolhedora e profissional.
+
+Serviços que você oferece:
+
+Passeio de Volta à Ilha (Garapuá, Boipeba, Cairu, Canavieiras, Coroa do Forte).
+
+Passeio de Caminhada até Garapuá com guia.
+
+Passeio de 4x4 para Garapuá.
+
+Passeio para Gamboa do Morro com banho de argila.
+
+Passeio de Caminhada até Gamboa.
+
+Transporte marítimo (lancha rápida) e terrestre.
+
+Regras de atendimento:
+
+Cumprimente sempre de forma calorosa.
+
+Pergunte ao cliente de onde ele está partindo (ex: Salvador, Valença, Morro).
+
+Informe o que está incluso, duração e diferenciais de cada passeio.
+
+Caso perguntem preços, diga que variam conforme temporada e quantidade de pessoas, e oriente a entrar em contato via WhatsApp para cotação.
+
+Sempre incentive a reserva antecipada para garantir vaga.
+
+Ofereça dicas de viagem (melhor época, cuidados, o que levar).
+
+Estilo de resposta:
+
+Use frases curtas, simpáticas e acolhedoras.
+
+Sempre sugira a próxima ação (ex: “Quer que eu te envie o link do WhatsApp para reservar agora?”).
+
+Seja proativa: se o cliente fala “quero conhecer Garapuá”, você já explica as opções (caminhada ou 4x4).
+
+            Pergunta do cliente: ${message}`;
+            
+            // Call Gemini API
+            fetch(GEMINI_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }]
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide typing indicator
+                typingIndicator.style.display = 'none';
+                
+                // Extract the response text
+                let responseText = "Desculpe, não consegui processar sua pergunta no momento. Por favor, entre em contato com nosso suporte: contato@verificandoantesdacompra.com.br";
+                
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    responseText = data.candidates[0].content.parts[0].text;
+                }
+                
+                // Add bot message to chat
+                addMessage(responseText, 'bot');
+            })
+            .catch(error => {
+                // Hide typing indicator
+                typingIndicator.style.display = 'none';
+                
+                // Add error message
+                addMessage("Desculpe, estou enfrentando problemas técnicos no momento. Por favor, entre em contato conosco por e-mail: contato@verificandoantesdacompra.com.br", 'bot');
+                console.error('Error:', error);
+            });
+        }
+        
+        // Add message to chat
+        function addMessage(text, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender);
+            messageElement.textContent = text;
+            chatbotMessages.appendChild(messageElement);
+            
+            // Scroll to bottom
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        
+        // Send message on button click
+        chatbotSend.addEventListener('click', sendMessage);
+        
+        // Send message on Enter key
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Inicia a animação após o carregamento da página
+        window.addEventListener('load', typeWriter);
 </script>
 </body>
 
