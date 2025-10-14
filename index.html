@@ -1620,7 +1620,7 @@ Exemplos de CTA:
                 typingIndicator.style.display = 'none';
                 
                 // Extract the response text
-                let responseText = "Desculpe, não consegui processar sua pergunta no momento. Por favor, entre em contato com nosso suporte: contato@verificandoantesdacompra.com.br";
+                let responseText = "Desculpe, não consegui processar sua pergunta no momento. Por favor, entre em contato com nosso suporte: 75 9 9960-1008";
                 
                 if (data.candidates && data.candidates[0].content.parts[0].text) {
                     responseText = data.candidates[0].content.parts[0].text;
@@ -1634,7 +1634,7 @@ Exemplos de CTA:
                 typingIndicator.style.display = 'none';
                 
                 // Add error message
-                addMessage("Desculpe, estou enfrentando problemas técnicos no momento. Por favor, entre em contato conosco por e-mail: contato@verificandoantesdacompra.com.br", 'bot');
+                addMessage("Desculpe, estou enfrentando problemas técnicos no momento. Por favor, entre em contato conosco por e-mail: 75 9 9960-1008", 'bot');
                 console.error('Error:', error);
             });
         }
